@@ -22,6 +22,17 @@ jobs:
           rm -rf jarvis_uz
         fi
 
+    - name: Fix JVM Target Compatibility (Java 17)
+      run: |
+        if [ -f "android/app/build.gradle" ]; then
+          # Java versiyasini 17 ga o'zgartirish
+          sed -i 's/JavaVersion.VERSION_1_8/JavaVersion.VERSION_17/g' android/app/build.gradle
+          sed -i 's/JavaVersion.VERSION_11/JavaVersion.VERSION_17/g' android/app/build.gradle
+          # Kotlin jvmTarget versiyasini 17 ga o'zgartirish
+          sed -i "s/jvmTarget = '1.8'/jvmTarget = '17'/g" android/app/build.gradle
+          sed -i "s/jvmTarget = '11'/jvmTarget = '17'/g" android/app/build.gradle
+        fi
+
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
